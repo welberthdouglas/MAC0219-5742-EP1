@@ -139,7 +139,7 @@
 }%
 \makeatother
 
-\journal{MAC 5742-0219 Introdução à Programação Concorrente, Paralela e Distribuída}
+\journal{MAC0219/5742 - Programação Concorrente e Paralela}
 
 \begin{document}
 
@@ -174,9 +174,9 @@
 %% \address[label1]{<address>}
 %% \address[label2]{<address>}
 
-\author{Pedro Bruel, Anderson Andrei, e Alfredo Goldman}
+\author{Diogo Pina e Alfredo Goldman}
 
-\address{MAC 5742-0219 Introdução à Programação Concorrente, Paralela e Distribuída}
+\address{MAC0219/5742 - Programação Concorrente e Paralela}
 
 %%\begin{abstract}
 %% Text of abstract
@@ -212,7 +212,7 @@
 
 Você já ouviu falar do Conjunto de
 Mandelbrot\footnote{\url{https://en.wikipedia.org/wiki/Mandelbrot_set}
-[Acessado em 24/04/2020]}?  Seu descobridor foi Benoit Mandelbrot, que
+[Acessado em 13/06/2022]}?  Seu descobridor foi Benoit Mandelbrot, que
 trabalhava na IBM durante a década de 1960 e foi um dos primeiros a usar
 computação gráfica para mostrar como complexidade pode surgir a partir de
 regras simples. Benoit fez isso gerando e visualizando imagens de geometria
@@ -238,8 +238,8 @@ função $f_c(z)$ convergiu. A Figura \ref{fig:header} foi gerada usando o
 código fonte fornecido junto com este documento. O código na linguagem
 \texttt{C} e os arquivos em \LaTeX{} necessários para gerar este documento
 estão disponíveis no
-\textit{GitHub}\footnote{\url{https://github.com/phrb/MAC5742-0219-EP1}
-[Acessado em 27/04/2020]}. O resto deste documento descreve as tarefas que você
+\textit{GitHub}\footnote{\url{https://github.com/diogojpina/MAC0219-5742-EP1}
+[Acessado em 13/06/2022]}. O resto deste documento descreve as tarefas que você
 e seu grupo deverão realizar no EP1.
 
 \section{Tarefas}
@@ -250,13 +250,12 @@ pelo OpenMP. Depois, vocês deverão medir o tempo de execução das versões
 sequencial, paralelizada com Pthreads e paralelizada com OpenMP. Vocês deverão
 medir o tempo de execução para diferentes tamanhos de entrada e números de
 \textit{threads} nas versões paralelizadas, em quatro regiões do Conjunto
-de Mandelbrot.
+de Mandelbrot, como descrito na seção de experimentos.
 
 A implementação necessária para paralelizar o código fornecido usando Pthreads e
 OpenMP é relativamente simples. A parte mais trabalhosa do EP1 é a elaboração de
-um relatório, no formato \textit{Jupyter Notebook} usando a linguagem Julia, que
-apresente gráficos com os resultados obtidos com as paralelizações, e os discuta
-de forma metódica, como vocês fizeram nos miniEPs.
+um relatório que apresente gráficos com os resultados obtidos com as paralelizações, 
+e os discuta de forma metódica, como vocês fizeram nos miniEPs.
 
 \subsection{Paralelização com Pthreads e OpenMP}
 
@@ -276,26 +275,26 @@ sequencial, dado que a saída continue correta.
 
 \subsection{Experimentos}
 
-Para cada uma  das três versões do programa, vocês  deverão realizar medições do
+Para cada uma das três versões do programa, vocês  deverão realizar medições do
 tempo de execução para diferentes tamanhos de entrada. Nas versões paralelizadas
-vocês deverão  também medir, para cada  tamanho de entrada, o  tempo de execução
+vocês deverão  também medir, para cada  tamanho de entrada, o tempo de execução
 para diferentes números de \textit{threads}.
 
 Vocês  devem fazer  um número  de  medições e  analisar a  variação dos  valores
 obtidos.  Sugerimos $10$ medições para cada experimento, e também que vocês usem
 a média  e o intervalo  de confiança das $10$  medições nos seus  gráficos. Caso
-observem variabilidade  muito grande nas  medições, resultando num  intervalo de
-confiança muito grande, vocês podem  realizar mais medições, sempre apresentando
-a média e  o intervalo de confiança.  \textbf{Não é  recomendado} fazer menos de
+observem variabilidade muito grande nas  medições, resultando num  intervalo de
+confiança muito grande, vocês podem realizar mais medições, sempre apresentando
+a média e  o intervalo de confiança.  \textbf{Não é recomendado} fazer menos de
 $10$ medições.
 
-Vocês devem analisar  também o impacto das porções não  paralelizáveis do código
-sequencial:  as operações  de  I/O e  alocação  de memória.   Uma  vez que  você
+Vocês devem analisar também o impacto das porções não paralelizáveis do código
+sequencial:  as operações  de  I/O e  alocação  de memória.   Uma  vez que você
 verifique  que  as versões  paralelizadas  produzem  o resultado  correto,  elas
 \textbf{não  precisam}  realizar  I/O  e  alocação  de  memória  nos  testes  de
 desempenho, pois esses custos são fixos e assim aceleramos os experimentos.
 
-A Tabela  \ref{tab:exp} lista os experimentos  que devem ser feitos:  os valores
+A Tabela  \ref{tab:exp} lista os experimentos que devem ser feitos:  os valores
 para o  número de  \textit{threads} e  de execuções, e  os tamanhos  de entrada.
 Cada  experimento  deverá  ser  repetido nas  quatro  regiões  especificadas  na
 Figura~\ref{fig:regions}.  As coordenadas  para  cada região  podem ser  obtidas
@@ -314,7 +313,7 @@ examples with image_size = 11500:
 \end{lstlisting}
 
 O número de iterações para o critério de convergência foi
-escolhido\footnote{\url{https://goo.gl/WpL9hS} [Acessado em 27/04/2020]} de
+escolhido\footnote{\url{https://goo.gl/WpL9hS} [Acessado em 13/06/2022]} de
 forma a produzir uma imagem interessante em diferentes níveis de magnificação,
 mas ter um tempo de execução razoável para tamanhos grandes de entrada.
 
@@ -380,13 +379,10 @@ dos parâmetros descritos na Tabela \ref{tab:exp}. Os gráficos deverão ser cla
 e legíveis,  com eixos  nomeados. Deverão  apresentar a média  e o  intervalo de
 confiança das $10$ execuções para cada cenário experimental.
 
-Neste EP,  você e  seu grupo  deverão utilizar Notebooks  Jupyter e  a linguagem
-Julia  para gerar  os gráficos  e  produzir um  documento com  as análises.   Os
-experimentos podem ser automatizados com a ferramenta \textit{screen}, ou feitos
-a  partir do  Notebook, como  nos  miniEPs. A  automação dos  experimentos e  da
-visualização  dos dados  gerados é  fundamental para  a pesquisa  em Ciência  da
-Computação, pois permite  gerar e analisar grandes conjuntos de  dados sem muito
-esforço manual.
+Os experimentos podem ser automatizados com a ferramenta \textit{screen}. 
+A  automação dos  experimentos e da visualização  dos dados  gerados é
+fundamental para  a pesquisa  em Ciência  da Computação, pois permite 
+gerar e analisar grandes conjuntos de  dados sem muito esforço manual.
 
 \subsection{Discussão dos Resultados}
 
@@ -409,15 +405,13 @@ Vocês conseguem pensar em mais perguntas interessantes?
 \section{Entrega}
 
 Vocês deverão entregar no site do  curso \textbf{um único arquivo por grupo}, no
-formato \texttt{.tar}, contendo:
+formato \texttt{tar/tgz/gz/zip}, contendo:
 
 \begin{itemize}
-\item Um arquivo \texttt{.ipynb} com as análises e gráficos
+\item Um arquivo \texttt{.pdf} com as análises e gráficos
 \item As três versões do código fonte usado
 \item Um arquivo \texttt{.csv} com as medições feitas
 \end{itemize}
-
-A entrega deve ser feita até o \textbf{dia 21/05/20}.
 
 \section{Tecnologias}
 
@@ -516,9 +510,7 @@ Vale \textbf{4.0}, divididos da seguinte maneira:
     \end{itemize}
 \end{itemize}
 
-Se tiver dúvidas,  envie uma mensagem no  fórum do curso, ou  envie e-mails para
-\texttt{pedro.bruel@gmail.com},     \texttt{anderson.andrei.silva@usp.br},    ou
-\texttt{gold@ime.usp.br}.  Bom EP!
+Se tiver dúvidas,  envie uma mensagem no  fórum do curso.
 
 %% References
 %%
