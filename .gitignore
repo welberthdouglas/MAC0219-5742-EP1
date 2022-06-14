@@ -13,3 +13,5 @@ measurements/
 *.log
 *.pdf
 *.spl
+
+*.vscode
