@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 #include <math.h>
+
+int THREADS;
 
 double c_x_min;
 double c_x_max;
@@ -50,13 +53,13 @@ void allocate_image_buffer(){
 };
 
 void init(int argc, char *argv[]){
-    if(argc < 6){
-        printf("usage: ./mandelbrot_omp c_x_min c_x_max c_y_min c_y_max image_size\n");
+    if(argc < 7){
+        printf("usage: ./mandelbrot_omp c_x_min c_x_max c_y_min c_y_max image_size THREADS\n");
         printf("examples with image_size = 11500:\n");
-        printf("    Full Picture:         ./mandelbrot_omp -2.5 1.5 -2.0 2.0 11500\n");
-        printf("    Seahorse Valley:      ./mandelbrot_omp -0.8 -0.7 0.05 0.15 11500\n");
-        printf("    Elephant Valley:      ./mandelbrot_omp 0.175 0.375 -0.1 0.1 11500\n");
-        printf("    Triple Spiral Valley: ./mandelbrot_omp -0.188 -0.012 0.554 0.754 11500\n");
+        printf("    Full Picture:         ./mandelbrot_omp -2.5 1.5 -2.0 2.0 11500 1\n");
+        printf("    Seahorse Valley:      ./mandelbrot_omp -0.8 -0.7 0.05 0.15 11500 1\n");
+        printf("    Elephant Valley:      ./mandelbrot_omp 0.175 0.375 -0.1 0.1 11500 1\n");
+        printf("    Triple Spiral Valley: ./mandelbrot_omp -0.188 -0.012 0.554 0.754 11500 1\n");
         exit(0);
     }
     else{
@@ -65,6 +68,7 @@ void init(int argc, char *argv[]){
         sscanf(argv[3], "%lf", &c_y_min);
         sscanf(argv[4], "%lf", &c_y_max);
         sscanf(argv[5], "%d", &image_size);
+        sscanf(argv[6], "%d", &THREADS);
 
         i_x_max           = image_size;
         i_y_max           = image_size;
@@ -112,6 +116,7 @@ void write_to_file(){
 };
 
 void compute_mandelbrot(){
+
     double z_x;
     double z_y;
     double z_x_squared;
@@ -125,13 +130,18 @@ void compute_mandelbrot(){
     double c_x;
     double c_y;
 
+    #pragma omp parallel for schedule (dynamic) \
+                             private  (i_x, i_y, c_x, c_y, z_x, z_y, \
+                                       z_x_squared, z_y_squared, iteration) \
+                             shared   (i_x_max, i_y_max, c_x_min, c_y_min, \
+                                       pixel_height, pixel_width, \
+                                       escape_radius_squared, iteration_max) \
+                             num_threads(THREADS)
     for(i_y = 0; i_y < i_y_max; i_y++){
         c_y = c_y_min + i_y * pixel_height;
-
         if(fabs(c_y) < pixel_height / 2){
             c_y = 0.0;
         };
-
         for(i_x = 0; i_x < i_x_max; i_x++){
             c_x         = c_x_min + i_x * pixel_width;
 
@@ -159,12 +169,20 @@ void compute_mandelbrot(){
 
 int main(int argc, char *argv[]){
     init(argc, argv);
+    double exec_time, start_time;
 
+    start_time = omp_get_wtime();
     allocate_image_buffer();
-
+    
+    exec_time = omp_get_wtime();
     compute_mandelbrot();
+
+    //EXECUTION
+    printf ("%f,", omp_get_wtime() - exec_time);
 
     write_to_file();
 
+    //TOTAL
+    printf ("%f\n", omp_get_wtime() - start_time);
     return 0;
 };
