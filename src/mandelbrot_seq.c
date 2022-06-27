@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <sys/time.h>
+#include <time.h>
 
 double c_x_min;
 double c_x_max;
@@ -157,14 +159,34 @@ void compute_mandelbrot(){
     };
 };
 
+float time_diff(struct timeval *start, struct timeval *end)
+{
+    return (end->tv_sec - start->tv_sec) + 1e-6*(end->tv_usec - start->tv_usec);
+}
+
 int main(int argc, char *argv[]){
     init(argc, argv);
 
+    struct timeval start_t, io_t, exec_t, end_t;
+
+    gettimeofday(&start_t, NULL);
     allocate_image_buffer();
 
+    gettimeofday(&exec_t, NULL);
     compute_mandelbrot();
 
-    write_to_file();
+    gettimeofday(&io_t, NULL);
+	write_to_file();
 
+	for(int i = 0; i < image_buffer_size; i++){
+        free(image_buffer[i]);
+    };
+    free(image_buffer);
+
+    gettimeofday(&end_t, NULL);
+
+    //EXECUTION & TOTAL
+    printf("%0.8f,%0.8f\n", time_diff(&exec_t ,&io_t), 
+                            time_diff(&start_t, &end_t));
     return 0;
 };
