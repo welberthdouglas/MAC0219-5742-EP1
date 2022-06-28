@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <sys/time.h>
-#include <time.h>
 
 double c_x_min;
 double c_x_max;
@@ -15,6 +13,7 @@ double pixel_height;
 int iteration_max = 200;
 
 int image_size;
+int io_malloc_flag;
 unsigned char **image_buffer;
 
 int i_x_max;
@@ -67,6 +66,7 @@ void init(int argc, char *argv[]){
         sscanf(argv[3], "%lf", &c_y_min);
         sscanf(argv[4], "%lf", &c_y_max);
         sscanf(argv[5], "%d", &image_size);
+        sscanf(argv[5], "%d", &io_malloc_flag);
 
         i_x_max           = image_size;
         i_y_max           = image_size;
@@ -159,34 +159,22 @@ void compute_mandelbrot(){
     };
 };
 
-float time_diff(struct timeval *start, struct timeval *end)
-{
-    return (end->tv_sec - start->tv_sec) + 1e-6*(end->tv_usec - start->tv_usec);
-}
 
 int main(int argc, char *argv[]){
     init(argc, argv);
+    
+    if(io_malloc_flag == 1){
+        allocate_image_buffer();
 
-    struct timeval start_t, io_t, exec_t, end_t;
+        compute_mandelbrot();
 
-    gettimeofday(&start_t, NULL);
-    allocate_image_buffer();
+        write_to_file();
 
-    gettimeofday(&exec_t, NULL);
-    compute_mandelbrot();
-
-    gettimeofday(&io_t, NULL);
-	write_to_file();
-
-	for(int i = 0; i < image_buffer_size; i++){
-        free(image_buffer[i]);
+        free(image_buffer);
+    } else {
+        compute_mandelbrot();
     };
-    free(image_buffer);
+    
 
-    gettimeofday(&end_t, NULL);
-
-    //EXECUTION & TOTAL
-    printf("%0.8f,%0.8f\n", time_diff(&exec_t ,&io_t), 
-                            time_diff(&start_t, &end_t));
     return 0;
 };

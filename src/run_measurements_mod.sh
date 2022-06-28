@@ -1,10 +1,10 @@
 #! /bin/bash
 set -o xtrace
 MEASUREMENTS=10
-SIZE_ITERATIONS=3 #10
+SIZE_ITERATIONS=10
 THREAD_ITERATIONS=6
 INITIAL_SIZE=16
-INITIAL_THREAD_NUM=1
+INITIAL_THREAD_NUM=2
 NAMES=('mandelbrot_seq' 'mandelbrot_pth' 'mandelbrot_omp')
 make
 echo "VERSION,REGION,SIZE,THREAD_NUM,MEASURAMENT,EXEC_TIME,TOTAL_TIME" >>  experiment.csv
@@ -23,6 +23,11 @@ for NAME in ${NAMES[@]}; do
                 echo -n "${NAME},spiral,${SIZE},${THREAD_NUM},${k}," >> experiment.csv
                 ./$NAME -0.188 -0.012 0.554 0.754 $SIZE $THREAD_NUM >> experiment.csv
             done
+            
+            if [ $NAME == "mandelbrot_seq" ]; then
+                break
+            fi
+            
             THREAD_NUM=$(($THREAD_NUM * 2))
         done
         SIZE=$(($SIZE * 2))

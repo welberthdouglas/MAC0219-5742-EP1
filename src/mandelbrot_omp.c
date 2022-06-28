@@ -171,18 +171,13 @@ int main(int argc, char *argv[]){
     init(argc, argv);
     double exec_time, start_time;
 
-    start_time = omp_get_wtime();
-    allocate_image_buffer();
+    //allocate_image_buffer();
     
-    exec_time = omp_get_wtime();
     compute_mandelbrot();
 
-    //EXECUTION
-    printf ("%f,", omp_get_wtime() - exec_time);
+    //write_to_file();
+    
+    //free(image_buffer);
 
-    write_to_file();
-
-    //TOTAL
-    printf ("%f\n", omp_get_wtime() - start_time);
     return 0;
 };

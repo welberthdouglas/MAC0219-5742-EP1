@@ -186,13 +186,11 @@ int main(int argc, char *argv[]){
 	struct thread_data thread_data_array[THREADS];
 	int t, error_code, start, end;
 
-    struct timeval start_t, io_t, exec_t, end_t;
 
-    gettimeofday(&start_t, NULL);
-    allocate_image_buffer();
 
-    gettimeofday(&exec_t, NULL);
-	pthread_attr_init(&attr);
+    //allocate_image_buffer();
+
+    pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
 	for(t = 0; t < THREADS; t++) {
@@ -218,17 +216,9 @@ int main(int argc, char *argv[]){
         };
 	}
 
-    gettimeofday(&io_t, NULL);
-	write_to_file();
+    //write_to_file();
 
-	for(int i = 0; i < image_buffer_size; i++){
-        free(image_buffer[i]);
-    };
-    free(image_buffer);
-    gettimeofday(&end_t, NULL);
+    //free(image_buffer);
 
-    //EXECUTION & TOTAL
-    printf("%0.8f,%0.8f\n", time_diff(&exec_t ,&io_t),
-                            time_diff(&start_t ,&end_t));
     return 0;
 };
