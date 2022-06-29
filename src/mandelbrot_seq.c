@@ -66,7 +66,7 @@ void init(int argc, char *argv[]){
         sscanf(argv[3], "%lf", &c_y_min);
         sscanf(argv[4], "%lf", &c_y_max);
         sscanf(argv[5], "%d", &image_size);
-        sscanf(argv[5], "%d", &io_malloc_flag);
+        sscanf(argv[7], "%d", &io_malloc_flag);
 
         i_x_max           = image_size;
         i_y_max           = image_size;
@@ -153,8 +153,10 @@ void compute_mandelbrot(){
                 z_x_squared = z_x * z_x;
                 z_y_squared = z_y * z_y;
             };
-
-            update_rgb_buffer(iteration, i_x, i_y);
+            
+            if(io_malloc_flag == 1){
+                update_rgb_buffer(iteration, i_x, i_y);
+            };
         };
     };
 };
